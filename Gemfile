@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 group :development, :test do
   gem "pry"
+  gem "sinatra"
+  gem "github-markdown"
   gem "rubocop"
   gem "minitest"
   gem "minitest-context"
