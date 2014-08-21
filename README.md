@@ -18,7 +18,7 @@ You’ll need to have a [Ruby](https://www.ruby-lang.org/en/) version 1.9.3 (or 
 
 ### Git
 
-You should also have [git](http://www.git-scm.com/) installed and you should have an account on either [Github](https://github.com/) or [Rackspace's Internal Github](https://github.rackspace.com/) since we’ll be playing like real developers.
+You should also have [git](http://www.git-scm.com/) installed and you should have an account on [Github](https://github.com/) since we’ll be playing like real developers.
 
 ## About this Repository
 
@@ -31,7 +31,7 @@ Prior to class, you can install all of the gems we will be using by doing the fo
 Clone this repository (needed only once)
 
 ```sh
-git clone https://github.rackspace.com/mmorga/dip-toe-into-ruby.git
+git clone https://github.com/mmorga/dip-toe-into-ruby.git
 ```
 
 Go into the project directory (`dip-toe-into-ruby` by default). Switch to the branch of today's class (for example for day 1):
