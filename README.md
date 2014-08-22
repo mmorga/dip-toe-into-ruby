@@ -24,8 +24,6 @@ You should also have [git](http://www.git-scm.com/) installed and you should hav
 
 The master branch contains an initial Gemfile that can be used to prep a student's machine with the gems that will be used in the class.
 
-Other branches are named by day "day1", "day2", etc. To contain additional files and notes that are appropriate for that day.
-
 Prior to class, you can install all of the gems we will be using by doing the following:
 
 Clone this repository (needed only once)
@@ -34,10 +32,10 @@ Clone this repository (needed only once)
 git clone https://github.com/mmorga/dip-toe-into-ruby.git
 ```
 
-Go into the project directory (`dip-toe-into-ruby` by default). Switch to the branch of today's class (for example for day 1):
+Go into the project directory (`dip-toe-into-ruby` by default). Update your local copy to ensure you have the latest changes.
 
 ```sh
-git checkout --track -b day1 origin/day1
+git pull origin master
 ```
 
 Install required gems:
@@ -49,4 +47,8 @@ bundle install
 
 Contact me if you need help getting things working or want to verify your setup prior to the class.
 
-Mark
+## Acknowledgements
+
+The following pages and resources were used to put together the class notes.
+
+1. [Ruby in Twenty Minutes](https://www.ruby-lang.org/en/documentation/quickstart/)
