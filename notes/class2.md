@@ -1,3 +1,16 @@
+# Ruby can be a tool to quickly transform or analyze data
+
+Examples:
+
+* Build a deck of slides from a simple markdown file
+* Produce a production quality design document from a series of markdown files and images in multiple formats: PDF, HTML, EPUB and Mobi.
+* Write plugins for tools (like SublimeText) to add new functionality.
+* Automate deployment and configuration (Capistrano, Chef, Puppet)
+
+# Where are we going?
+
+We're going to build a wiki then turn it into a service. (might take a class or two.)
+
 # Working with Files
 
 Already saw the current filename variable `__FILE__` - Ruby has two classes that make working with files easier: `Dir` and `File`
@@ -224,4 +237,213 @@ CSV.foreach("data/RaisedBedGardenCosts.csv") do |line|
 end
 puts "</table>"
 ```
+
+# Markup Languages
+
+Markup languages are text formats that are designed to type easily and be converted via a program into a nicer visual format (usually HTML).
+
+# Markdown
+
+[Markdown](http://daringfireball.net/projects/markdown/syntax) is one of the more popular Markdown languages. Other examples: textile, Org-mode (Emacs), rDoc (Ruby), reStructuredText (Python), Javadoc (Java), Creole (MediaWiki).There are Ruby gems to process just about any markup format you want.
+
+Markdown has several flavor variants: MultiMarkdown and Github Flavored Markdown are two.
+
+The redcarpet gem (and others) in ruby handles Markdown.
+
+For example:
+
+Given a Markdown file:
+
+```markdown
+# Great Electric Guitars of History
+
+The following list contains *some* of the greatest guitars _in history_:
+
+* Fender Telecaster
+* Gibson Les Paul
+* Fender Stratocaster
+* Gibson Flying V
+* Paul Reed Smith
+```
+
+Which looks like this (in HTML):
+
+---
+
+# Great Electric Guitars of History
+
+The following list contains *some* of the greatest guitars _in history_:
+
+* Fender Telecaster
+* Gibson Les Paul
+* Fender Stratocaster
+* Gibson Flying V
+* Paul Reed Smith
+
+---
+
+To process a file to turn it into HTML, you'd read the file, process it and write it out to a new file.
+
+```ruby
+require 'redcarpet'
+
+markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+File.open("markdown_example1.html", "w") do |f|
+  f.write(markdown.render(File.read("markdown_example1.md")))
+end
+```
+
+The resulting file is:
+
+```html
+<h1>Great Electric Guitars of History</h1>
+
+<p>The following list contains <em>some</em> of the greatest guitars <em>in history</em>:</p>
+
+<ul>
+<li>Fender Telecaster</li>
+<li>Gibson Les Paul</li>
+<li>Fender Stratocaster</li>
+<li>Gibson Flying V</li>
+<li>Paul Reed Smith</li>
+</ul>
+```
+
+# Sinatra
+
+Sinatra is a minimalist DSL for building small web apps.
+
+An example:
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  'Hello world!'
+end
+```
+
+# Ok so what's the minimum viable wiki?
+
+A wiki has to have the following features:
+
+1. Display a wiki page
+2. Allow edits to a wiki page
+3. Allow updates to a wiki page & Link between pages
+4. Creating a new page
+
+Let's get started.
+
+## Display a page
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'sinatra'
+require 'redcarpet'
+
+get '/' do
+  # TODO: this needs to be an option on the page
+  file = "guitar.md"
+  markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+  markdown.render(File.read(File.join("pages", file)))
+end
+```
+
+So that's ok for one "home" page, but what if we want to display another?
+
+```
+GET /more-guitar
+```
+
+So we're adding a route to the name of the page. And to keep the default working, we're making the default redirect to the default page name.
+
+```ruby
+get '/' do
+  redirect to('/guitar')
+end
+
+get '/:page' do
+  file = "#{params[:page]}.md"
+
+  markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+  markdown.render(File.read(File.join("../pages", file)))
+end
+```
+
+## Allowing Edits to a Page
+
+First off need to modify the page to add a link to edit it.
+
+### Adding an Edit Link
+
+Let's say the route for edit is:
+
+/:page/edit
+
+Change the get /:page method to do this:
+
+```ruby
+get '/:page' do
+  file = "#{params[:page]}.md"
+
+  markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+
+  text = File.read(File.join("../pages", file))
+  text += <<-BLOCK
+
+---
+
+[Edit](/#{params[:page]}/edit)
+
+  BLOCK
+
+  puts text
+  markdown.render(text)
+end
+```
+
+### Adding an Edit route
+
+Talk about POST versus PUT here.
+
+```ruby
+get '/:page/edit' do
+  page = params[:page]
+  content = File.read(File.join("../pages", "#{page}.md"))
+  <<-BLOCK
+<form name="wikipage" action="/#{page}" method="POST">
+    <textarea name="content" cols="80" rows="25">#{content}</textarea>
+    <input type="submit" value="Save" />
+</form>
+  BLOCK
+end
+```
+
+## Allowing Updates to a page
+
+```ruby
+post '/:page' do
+  File.open(File.join("../pages", "#{params[:page]}.md"), "w") do |f|
+    f.write(params[:content])
+  end
+  redirect to("/#{params[:page]}")
+end
+```
+
+## Linking between pages
+
+Inserting a link into pages is dirt simple.
+
+Edit a page and add to the bottom.
+
+```markdown
+[More Guitars](more-guitar)
+```
+
+This is standard markdown syntax for a link. Since we chose a simple route scheme for our wiki, the default just works.
+
+## Creating a new page
+
+Go back to your show page: `get '/:page` and add this to the content below the edit.
 
