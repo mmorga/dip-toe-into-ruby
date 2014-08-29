@@ -20,7 +20,6 @@ get '/:page' do
 
 [Edit](/#{params[:page]}/edit)
 
-
   BLOCK
 
   markdown.render(text)

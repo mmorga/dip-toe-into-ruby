@@ -134,5 +134,52 @@ This is standard markdown syntax for a link. Since we chose a simple route schem
 
 ## Creating a new page
 
-Go back to your show page: `get '/:page` and add this to the content below the edit.
+In traditional wiki's you created a new page by adding a link to the page that didn't exist yet. Let's stick to tradition.
+
+So that works, but when you click on the link, you get an error.
+
+So let's make the case that when a `get/:page` happens and the file doesn't exist, you get redirected to the edit page.
+
+```ruby
+get '/:page' do
+  file = File.join("../pages", "#{params[:page]}.md")
+  redirect to("/#{params[:page]}/edit") unless File.exist?(file)
+
+  markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+
+  text = File.read(file)
+  text += <<-BLOCK
+
+---
+
+[Edit](/#{params[:page]}/edit)
+
+
+  BLOCK
+
+  markdown.render(text)
+end
+```
+
+Now, go back to your edit page: `get '/:page/edit` and add this to the content below the edit.
+
+We need to handle the case where the page doesn't yet exist.
+
+```ruby
+get '/:page/edit' do
+  page = params[:page]
+  file = File.join("../pages", "#{page}.md")
+  if File.exist?(file)
+    content = File.read(file)
+  else
+    content = ""
+  end
+  <<-BLOCK
+<form name="wikipage" action="/#{page}" method="POST">
+    <textarea name="content" cols="80" rows="25">#{content}</textarea>
+    <input type="submit" value="Save" />
+</form>
+  BLOCK
+end
+```
 
