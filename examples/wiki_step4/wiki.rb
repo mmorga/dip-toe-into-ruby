@@ -8,11 +8,12 @@ get '/' do
 end
 
 get '/:page' do
-  file = "#{params[:page]}.md"
+  file = File.join("../pages", "#{params[:page]}.md")
+  redirect to("/#{params[:page]}/edit") unless File.exist?(file)
 
   markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
 
-  text = File.read(File.join("../pages", file))
+  text = File.read(file)
   text += <<-BLOCK
 
 ---
