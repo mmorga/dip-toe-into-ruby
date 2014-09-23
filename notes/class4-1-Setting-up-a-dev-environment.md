@@ -44,10 +44,10 @@ Here's where we run into the first issue for Windows developers. The default she
 There are a few alternatives available:
 
 1. [Powershell](http://www.microsoft.com/powershell): This is a better shell in just about every way though IMHO it requires quite a bit of customization before it becomes really usable. This is Microsoft's choice for a better shell.
-2. [GOW](https://github.com/bmatzelle/gow) (Gnu on Windows) is a lightweight collection of GNU command line utilities that (while I haven't tried it myself) seems like a reasonable basic set of command line tools that you can use.
-3. Git Bash - ***TBD***
-3. [MingW](http://mingw.org/) Is a development environment that brings the GNU utilities and command shell to Windows
-4. [Cygwin](http://cygwin.com/): Back when I was a Windows developer, I always used cygwin to provide Unix-like GNU commands. It still is available, but the commands have trouble interacting with some windows applications (that aren't compiled with cygwin's posix layer). As a result, I don't recommend it anymore unless you are already using it.
+2. [Git Bash](https://msysgit.github.io/) - this may be the simplest approach on Windows.
+3. [GOW](https://github.com/bmatzelle/gow) (Gnu on Windows) is a lightweight collection of GNU command line utilities that (while I haven't tried it myself) seems like a reasonable basic set of command line tools that you can use.
+4. [MingW](http://mingw.org/) Is a development environment that brings the GNU utilities and command shell to Windows
+5. [Cygwin](http://cygwin.com/): Back when I was a Windows developer, I always used cygwin to provide Unix-like GNU commands. It still is available, but the commands have trouble interacting with some windows applications (that aren't compiled with cygwin's posix layer). As a result, I don't recommend it anymore unless you are already using it.
 
 ## Package Management
 
@@ -102,6 +102,8 @@ There are dozens of both open source and commercial version control systems. Git
 I recommend [Git](http://git-scm.com/). Git is free and has a lot of killer features. It's extremely powerful (though sometimes a challenge to learn). Github.com is a product built on Git that provides a nice web application interface to Git projects that makes collaboration a LOT easier. Get a free Github account to work through this class.
 
 You need to install the git command line tools using your package manager. Alternately, you can install git directly from [Git](http://git-scm.com/).
+
+There are many git UIs available. Windows users may be interested in [Github for Windows](https://windows.github.com/).
 
 ## Source Code Editor or IDE
 
