@@ -26,6 +26,7 @@ git remote add upstream https://github.com/getit/wildthing.git
 ## Creating a feature branch
 
 ```sh
+git co master
 git co -b new-feature-name
 ```
 
