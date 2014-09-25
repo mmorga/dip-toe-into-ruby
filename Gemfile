@@ -1,11 +1,13 @@
 source "https://rubygems.org"
 
+gem 'rails'
+gem "sinatra"
+gem "redcarpet"
+
 group :development, :test do
   gem "pry"
-  gem "sinatra"
   gem "thin"
   gem "rerun"
-  gem "github-markdown"
   gem "rubocop"
   gem "minitest"
   gem "minitest-context"
@@ -15,7 +17,6 @@ group :development, :test do
   gem "guard-minitest"
   gem "guard-bundler"
   gem "guard-rubocop"
-  gem "redcarpet"
 end
 
 group :test do
