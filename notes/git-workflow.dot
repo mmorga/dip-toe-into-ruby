@@ -1,0 +1,41 @@
+digraph G {
+  label="Github Workflow";
+  fontname="Helvetica-Bold";
+  node [shape="rect",fontname="Helvetica",fontsize="12pt"];
+  edge [fontname="Helvetica",fontsize="10pt"];
+
+  start [label="Start",shape="ellipse"];
+  project_type [label="New or\nExisting\nProject?",shape="diamond"];
+  github_fork [label="Fork Project"];
+  github_new [label="Create Project"];
+  git_clone [label="Git Clone"];
+  git_branch [label="Git Branch"];
+  commit_changes [label="Commit Changes"];
+  push_branch [label="Push Branch"];
+  personal_or_collab [label="Personal or\nCollaborative\nProject?",shape="diamond"];
+  merge_branch [label="Merge Branch"];
+  pull_request [label="Send Pull Request"];
+  accepted [label="Pull\nRequest\nAccepted?",shape="diamond"];
+  delete_branch [label="Delete Branch"];
+  make_changes [label="Make Changes"];
+  pull_master [label="Pull Master"];
+
+  start->project_type;
+  project_type->github_fork [label="Existing\nProject"];
+  project_type->github_new [label="New\nProject"];
+  github_fork->git_clone;
+  github_new->git_clone;
+  git_clone->git_branch;
+  git_branch->commit_changes;
+  commit_changes->push_branch;
+  push_branch->personal_or_collab;
+  personal_or_collab->merge_branch [label="Personal\nProject"];
+  merge_branch->delete_branch;
+  delete_branch->pull_master;
+  pull_master->git_branch [label="And Repeat"];
+  personal_or_collab->pull_request [label="Collaborative\nProject"];
+  pull_request->accepted;
+  accepted->delete_branch [label="yes"];
+  accepted->make_changes [label="no"];
+  make_changes->commit_changes;
+}

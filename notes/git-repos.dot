@@ -1,0 +1,46 @@
+digraph G {
+  label="Github Repos";
+  fontname="Helvetica-Bold";
+  node [shape="rect",fontname="Helvetica",fontsize="12pt"];
+  edge [fontname="Helvetica",fontsize="10pt",arrowhead="vee"];
+
+  subgraph cluster0 {
+    label="GitHub";
+    project1 [label="Project1 Repo"];
+    a_project1fork [label="Alice's Project1 Fork"];
+    b_project1fork [label="Bill's Project1 Fork"];
+    c_project1fork [label="Cary's Project1 Fork"];
+  }
+
+  subgraph cluster1 {
+    label="Alice's Workstation";
+
+    a_project1clone [label="Alice's Project1 Repo"];
+  }
+
+  subgraph cluster2 {
+    label="Bill's Workstation";
+
+    b_project1clone [label="Bill's Project1 Repo"];
+  }
+
+  subgraph cluster3 {
+    label="Cary's Workstation";
+
+    c_project1clone [label="Cary's Project1 Repo"];
+  }
+
+  project1->a_project1fork [label="fork"];
+  project1->b_project1fork [label="fork"];
+  project1->c_project1fork [label="fork"];
+
+  a_project1fork->a_project1clone [label="clone"];
+  a_project1clone->a_project1clone [label="branch & changes"];
+  a_project1clone->a_project1fork [label="push branch"];
+  a_project1fork->project1 [label="pull request"];
+  project1 [label="merge"];
+
+  b_project1fork->b_project1clone [label="clone"];
+
+  c_project1fork->c_project1clone [label="clone"];
+}
